@@ -1,0 +1,1276 @@
+%! Author = Marcin Belicki
+%! Date = 17.10.2021
+
+% Preamble
+\documentclass[11pt]{article}
+\usepackage[a0paper, landscape, margin=2cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[polish]{babel}
+\usepackage{lmodern}
+\usepackage{varwidth}
+\setlength{\parindent}{0pt}
+\usepackage{amsmath}
+% Packages
+\usepackage{xcolor}
+\pagecolor[rgb]{0,0,0} %black
+\color[rgb]{0.5,0.5,0.5} %grey
+\usepackage{tikz}
+\usetikzlibrary{automata,arrows}
+\pgfarrowsdeclare{arcs}{arcs}{...}{
+    \pgfsetdash{}{0pt}
+    \pgfsetroundjoin
+    \pgfsetroundcap
+    \pgfpathmoveto{\pgfpoint{-3pt}{3pt}}
+    \pgfpatharc{180}{270}{3pt}
+    \pgfpatharc{90}{180}{3pt}
+    \pgfusepathqstroke
+}
+\usepackage{cancel}
+\usepackage{setspace}
+
+\usepackage{ulem}
+
+% Document
+\begin{document}
+    1 - 2 - (f)
+    \begin{flalign*}
+        \left(
+            (a+b)(a+b)(a+b)
+        \right)^*
+        \left(
+            a + b
+        \right)
+        \left(
+            a + b +\lambda
+        \right) && \hspace{10 cm}
+    \end{flalign*}
+    2 - 1 - (a)
+    \begin{flalign*}
+        w &= 10101 & \hspace{10 cm}\\
+        A_1\\
+        & q_{1}10101 \rightarrow q_{2}0101 \rightarrow q_{1}101 \rightarrow q_{2}01 \rightarrow q_{1}1 \rightarrow q_2\\
+        A_2\\
+        & p_{1}10101 \rightarrow p_{2}0101 \rightarrow p_{2}101 \rightarrow p_{1}01 \rightarrow p_{1}1 \rightarrow p_2
+    \end{flalign*}
+    2 - 1 - (c)\vspace{0.3cm}
+
+    $A_1$ - automat akceptuje słowa kończące się na literę 1. Słowa te można opisać następującym wyrażeniem regularnym.\vspace{-0.3cm}
+    \begin{flalign*}
+        (0 + 1)^*1& \hspace{15 cm}
+    \end{flalign*}
+    $A_2$ - automat akceptuje słowa z nieparzystą liczbą liter 1. Słowa te można opisać następującym wyrażeniem regularnym.\vspace{-0.3cm}
+    \begin{flalign*}
+        \left(
+            0^*10^*10^*
+        \right)^*0^*10^*& \hspace{15 cm}
+    \end{flalign*}
+    (j) $L = \left\{wcw : w\in\left\{a,b\right\}^*\right\}$ (dwutaśmowa)
+
+    \vspace{0.2cm}
+    $q_0$ - stan początkowy\\
+    $q_f$ - stan końcowy
+
+    \vspace{0.2cm}
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+        \hline
+        $\delta$ & $(a,B)$         & $(b,B)$         & $(c,a)$         & $(c,b)$         & $(c,B)$         & $(a,a)$         & $(b,b)$         & $(B,B)$\\
+        \hline
+        $q_0$    & $\left(q_0,a,R,a,R\right)$ & $\left(q_0,b,R,b,R\right)$ & -          & -               & $\left(q_1,c,N,B,L\right)$ & - & - & -\\
+        \hline
+        $q_1$    & -               & -               & $\left(q_1,c,N,a,L\right)$ & $\left(q_1,c,N,b,L\right)$ & $\left(q_2,c,R,B,R\right)$ & -               & -               & -\\
+        \hline
+        $q_2$    & -               & -               & - & - & - & $\left(q_2,a,R,a,R\right)$ & $\left(q_2,b,R,b,R\right)$ & $\left(q_f,B,N,B,N\right)$\\
+        \hline
+    \end{tabular}
+
+    \begin{center}
+        \begin{tikzpicture}[node distance=4 cm,  scale = 1, transform shape]
+            \node[state] (A)  {$q_0$};
+            \node[state,above of = A] (B)  {$q_1$};
+            \node[state,right of = B] (C)  {$q_2$};
+            \node[state,below of = C] (D)  {$q_3$};
+            \node[state,right of = C] (E)  {$q_f$};
+            \node[state,right of = D] (F)  {$q_4$};
+            \node[circle,right of = C, draw, minimum height = 0.8cm]  {};
+            \coordinate [below of = A,node distance=1 cm] (s);
+            \draw [-arcs] (s.center)--(A);
+            \draw [-arcs] (A)--node[align = center,left=-0.3cm] {
+                \begin{footnotesize}
+                \begin{varwidth}{\textwidth}
+                        $$\left\{
+                            \arraycolsep=1.4pt
+                            \begin{array}{ccclc}
+                                0 & / & 0 & , & R\\
+                                B & / & 0 & , & R
+                            \end{array}
+                        \right.$$
+                \end{varwidth}
+            \end{footnotesize}
+            }(B);
+
+            \draw [-arcs] (B)--node[align = center,auto] {
+                \begin{footnotesize}
+                \begin{varwidth}{\textwidth}
+                        $$\left\{
+                            \arraycolsep=1.4pt
+                            \begin{array}{ccclc}
+                                0 & / & 0 & , & R\\
+                                B & / & 0 & , & R
+                            \end{array}
+                        \right.$$
+                \end{varwidth}
+            \end{footnotesize}
+            }(C);
+            \draw [-arcs,scale=1] (C.60) to [bend right=100, distance = 1cm]  node[align = center,above] {
+                \begin{footnotesize}
+                \begin{varwidth}{\textwidth}
+                        $$\left\{
+                            \arraycolsep=1.4pt
+                            \begin{array}{ccclc}
+                                0 & / & 0 & , & R\\
+                                B & / & 0 & , & R
+                            \end{array}
+                        \right.$$
+                \end{varwidth}
+            \end{footnotesize}
+            }(C.120);
+
+            \draw [-arcs,scale=1] (C) -- node[align = center,left=-0.3cm] {
+                \begin{footnotesize}
+                \begin{varwidth}{\textwidth}
+                        $$\left\{
+                            \arraycolsep=1.4pt
+                            \begin{array}{ccclc}
+                                0 & / & 0 & , & N\\
+                                B & / & B & , & L
+                            \end{array}
+                        \right.$$
+                \end{varwidth}
+            \end{footnotesize}
+            }(D);
+
+            \draw [-arcs,scale=1] (D.150) to [bend right=100, distance = 1cm] node[align = center,left=-0.3cm] {
+                \begin{footnotesize}
+                \begin{varwidth}{\textwidth}
+                        $$\left\{
+                            \arraycolsep=1.4pt
+                            \begin{array}{ccclc}
+                                0 & / & 0 & , & R\\
+                                0 & / & 0 & , & L
+                            \end{array}
+                        \right.$$
+                \end{varwidth}
+            \end{footnotesize}
+            }(D.210);
+
+            \draw [-arcs,scale=1] (D) -- node[align = center,above,rotate=45] {
+                \begin{footnotesize}
+                \begin{varwidth}{\textwidth}
+                        $$\left\{
+                            \arraycolsep=1.4pt
+                            \begin{array}{ccclc}
+                                B & / & B & , & N\\
+                                B & / & B & , & N
+                            \end{array}
+                        \right.$$
+                \end{varwidth}
+            \end{footnotesize}
+            }(E);
+
+            \draw [-arcs,scale=1] (D) -- node[align = center,above] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$\left\{
+                            \arraycolsep=1.4pt
+                            \begin{array}{ccclc}
+                                0 & / & 0 & , & N\\
+                                B & / & B & , & R
+                            \end{array}
+                        \right.$$
+                \end{varwidth}
+                \end{footnotesize}                
+            }(F);
+
+            \draw [-arcs,scale=1] (F) to [bend right=-30] node[align = center,below] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$\left\{
+                            \arraycolsep=1.4pt
+                            \begin{array}{ccclc}
+                                0 & / & 0 & , & N\\
+                                B & / & B & , & L
+                            \end{array}
+                        \right.$$
+                \end{varwidth}
+                \end{footnotesize}                
+            }(D);
+
+            \draw [-arcs,scale=1] (F.-30) to [bend right=100, distance = 1cm] node[align = center,right] {
+                \begin{footnotesize}
+                \begin{varwidth}{\textwidth}
+                        $$\left\{
+                            \arraycolsep=1.4pt
+                            \begin{array}{ccclc}
+                                0 & / & 0 & , & R\\
+                                0 & / & 0 & , & R
+                            \end{array}
+                        \right.$$
+                \end{varwidth}
+            \end{footnotesize}
+            }(F.30);
+
+            \draw [-arcs,scale=1] (F) -- node[align = center,right] {
+                \begin{footnotesize}
+                \begin{varwidth}{\textwidth}
+                        $$\left\{
+                            \arraycolsep=1.4pt
+                            \begin{array}{ccclc}
+                                B & / & B & , & N\\
+                                B & / & B & , & N
+                            \end{array}
+                        \right.$$
+                \end{varwidth}
+            \end{footnotesize}
+            }(E);
+        \end{tikzpicture}
+    \end{center}
+
+    \begin{center}
+        \begin{tikzpicture}[node distance=4 cm,  scale = 1, transform shape]
+            \node[state] (A)  {$q_0$};
+            \node[state,above of = A] (B)  {$q_1$};
+            \node[state,right of = B] (C)  {$q_2$};
+            \node[state,below of = C] (D)  {$q_3$};
+            \node[state,right of = C] (E)  {$q_4$};
+            \node[state,right of = D] (F)  {$q_5$};
+            \node[state,right of = E] (N)  {$q_{13}$};
+            \node[state,above of = N] (G)  {$q_6$};
+            \node[state,right of = N] (H)  {$q_7$};
+            \node[state,below of = H] (I)  {$q_8$};
+            \node[state,right of = F] (J)  {$q_9$};
+            \node[state,below of = J] (K)  {$q_{10}$};
+            \node[state,below of = K] (L)  {$q_{11}$};
+            \node[state,right of = I] (M)  {$q_{12}$};
+            \node[state,left of = L]  (O)   {$q_{14}$};
+            \node[state,below of = D]  (P)   {$q_{15}$};
+            \node[state,left of = A]  (Q)   {$q_{16}$};
+            \node[state,below of = P]  (S)   {$q_{18}$};
+            \node[state,left of = S]  (R)   {$q_{17}$};
+            \node[state,below of = O]  (T)   {$q_{19}$};
+            \node[state,left of = R]  (U)   {$q_{20}$};
+            \node[state,below of = U]  (V)   {$q_{21}$};
+            \node[state,left of = V]  (W)   {$q_{22}$};
+            \node[state,above of = W]  (X)   {$q_{23}$};
+            \node[state,left of = Q]  (Y)   {$q_{24}$};
+            \node[state,above of = G]  (Z)   {$q_{25}$};
+            \node[state,right of = Z]  (ZA)   {$q_{26}$};
+            \node[state,right of = ZA]  (ZB)   {$q_{27}$};
+            \node[state,right of = ZB]  (ZC)   {$q_{28}$};
+            \node[state,above of = M]  (ZD)   {$q_{29}$};
+            \node[state,right of = ZD]  (ZE)   {$q_{30}$};
+            \node[state,below of = ZB]  (ZF)   {$q_{31}$};
+             \node[circle, draw, minimum height = 0.8cm] at (X) {};
+            \node[circle, draw, minimum height = 0.8cm] at (ZF) {};
+            \coordinate [below of = A,node distance=1 cm] (s);
+            \draw [-arcs] (s.center)--(A);
+            \draw [-arcs] (A)--node[align = center,left=-0.3cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                x & / & x & , & R\\
+                            \end{array}\\
+                            x \in \left\{0,1\right\}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(B);
+
+            \draw [-arcs,scale=1] (B.60) to [bend right=100, distance = 1cm]  node[align = center,above] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                x & / & x & , & R\\
+                            \end{array}\\
+                            x \in \left\{0,1\right\}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(B.120);
+            \draw [-arcs,scale=1] (B) --  node[align = center,above] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                ; & / & ; & , & L\\
+                            \end{array}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(C);
+
+            \draw [-arcs,scale=1] (C) --  node[align = center,left=-0.3cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                0 & / & \cancel{0} & , & R
+                            \end{array}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(D);
+
+            \draw [-arcs] (C)--node[align = center,above] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                1 & / & \cancel{1} & , & R
+                            \end{array}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(E);
+
+            \draw [-arcs,scale=1] (C.60) to [bend right=100, distance = 1cm]  node[align = center,above] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                x & / & x & , & L\\
+                            \end{array}\\
+                            x \in \left\{\cancel{0},\cancel{1}\right\}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(C.120);
+
+            \draw [-arcs,scale=1] (E.60) to [bend right=100, distance = 1cm]  node[align = center,above] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                x & / & x & , & R\\
+                            \end{array}\\
+                            x \in \left\{\cancel{0},\cancel{1}\right\}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(E.120);
+
+            \draw [-arcs,scale=1] (D.150) to [bend right=100, distance = 1cm] node[align = center,left=-0.3cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                            \begin{array}{l}
+                                  \arraycolsep=1.4pt
+                                  \begin{array}{lcclc}
+                                      x & / & x & , & R\\
+                                  \end{array}\\
+                                  x \in \left\{\cancel{0},\cancel{1}\right\}
+                            \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(D.210);
+
+            \draw [-arcs] (D)--node[align = center,above] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                ; & / & ; & , & R
+                            \end{array}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(F);
+
+
+            \draw [-arcs] (E)--node[align = center,above=0.3cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                ; & / & ; & , & R
+                            \end{array}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(G);
+            \draw [-arcs,scale=1] (F.-30) to [bend right=100, distance = 1cm]  node[align = center,right=-0.3cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                x & / & x & , & R\\
+                            \end{array}\\
+                            x \in \left\{0,1\right\}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(F.30);
+
+            \draw [-arcs,scale=1] (G.60) to [bend right=100, distance = 1cm]  node[align = center,above] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                x & / & x & , & R\\
+                            \end{array}\\
+                            x \in \left\{0,1\right\}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(G.120);
+            .1
+            \draw [-arcs] (G)--node[align = center,right = -.3cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                B & / & B & , & L
+                            \end{array}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(H);
+
+            \draw [-arcs] (H)--node[align = center,right=-0.3cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                x & / & \cancel{x} & , & L\\
+                            \end{array}\\
+                            x \in \left\{0,1\right\}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(I);
+            \draw [-arcs] (F)--node[align = center,right=-0.3cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                B & / & B & , & L\\
+                            \end{array}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(K);
+
+            \draw [-arcs] (K)--node[align = center,left=-0.3cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                0 & / & \cancel{0} & , & L\\
+                            \end{array}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(I);
+
+            \draw [-arcs] (I)--node[align = center,above] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                x & / & x & , & L\\
+                            \end{array}\\
+                            x \in \left\{0,1\right\}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(J);
+            \draw [-arcs,scale=1] (J.60) to [bend right=100, distance = 1cm]  node[align = center,above] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                x & / & x & , & L\\
+                            \end{array}\\
+                            x \in \left\{0,1\right\}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(J.120);
+            \draw [-arcs] (J)--node[align = center,above=0.2cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                ; & / & ; & , & L\\
+                            \end{array}\
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(C);
+            \draw [-arcs] (F)--node[align = center,left=-0.3cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                x & / & x & , & L\\
+                            \end{array}\\
+                            x \in \left\{\cancel{0},\cancel{1}\right\}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(L);
+            \draw [-arcs] (L)--node[align = center,right=-0.3cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                0 & / & \cancel{0} & , & L\\
+                                ; & / & ; & , & N
+                            \end{array}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(I);
+
+
+            \draw [-arcs] (I)--node[align = center,above] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                ; & / & ; & , & R\\
+                            \end{array}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(M);
+            \draw [-arcs] (G)--node[align = center,left=-0.5cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                x & / & x & , & L
+                            \end{array}\\
+                            x \in \left\{\cancel{0},\cancel{1}\right\}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(N);
+
+            \draw [-arcs] (N)--node[align = center,above right=-0.3cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                x & / & \cancel{x} & , & L\\
+                                ; & / & ; & , & N
+                            \end{array}\\
+                            x \in \left\{0,1 \right\}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(I);
+
+            \draw [-arcs] (L)--node[align = center,above] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                1 & / & \cancel{1} & , & L
+                            \end{array}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(O);
+
+            \draw [-arcs,scale=1] (O.60) to [bend right=100, distance = 1cm]  node[align = center,above] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                x & / & x & , & L\\
+                            \end{array}\\
+                            x \in \left\{0,1\right\}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(O.120);
+
+            \draw [-arcs] (O)--node[align = center,below left = -0.3cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                ; & / & ; & , & L
+                            \end{array}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(P);
+
+            \draw [-arcs] (P)--node[align = center,right=-0.3cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                1 & / & \cancel{1} & , & R
+                            \end{array}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(D);
+
+            \draw [-arcs,scale=1] (P.-30) to [bend right=100, distance = 1cm]  node[align = center,right=-0.3cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                x & / & x & , & L\\
+                            \end{array}\\
+                            x \in \left\{\cancel{0},\cancel{1}\right\}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(P.30);
+
+            \draw [-arcs] (P)--node[align = center,below left=-.3cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                B & / & B & , & R
+                            \end{array}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(Q);
+
+            \draw [-arcs] (P)--node[align = center,left=-0.3cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                0 & / & \cancel{0} & , & R
+                            \end{array}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(R);
+
+            \draw [-arcs,scale=1] (R.150) to [bend right=100, distance = 1cm] node[align = center,left=-0.3cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                x & / & x & , & R\\
+                            \end{array}\\
+                            x \in \left\{\cancel{0},\cancel{1}\right\}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(R.210);
+
+            \draw [-arcs] (R)--node[align = center,above] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                ; & / & ; & , & R
+                            \end{array}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(S);
+
+            \draw [-arcs,scale=1] (S.-60) to [bend right=-100, distance = 1cm] node[align = center,below] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                x & / & x & , & R\\
+                            \end{array}\\
+                            x \in \left\{0,1\right\}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(S.-120);
+
+            \draw [-arcs] (S)--node[align = center,above right=-0.3cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                x & / & x & , & L
+                            \end{array}\\
+                            x \in \left\{\cancel{0},\cancel{1}\right\}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(T);
+
+            \draw [-arcs] (T)--node[align = center,right=-0.3cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                x & / & \cancel{x} & , & L
+                            \end{array}\\
+                            x \in \left\{0,1\right\}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(O);
+            \draw [-arcs] (U)--node[align = center,right=-0.3cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                B & / & B & , & R
+                            \end{array}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(Q);
+            \draw [-arcs] (T)--node[align = center,below left=-0.3cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                ; & / & ; & , & L
+                            \end{array}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(U);
+
+
+            \draw [-arcs,scale=1] (U.150) to [bend right=100, distance = 1cm] node[align = center,left=-0.3cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                x & / & x & , & L\\
+                            \end{array}\\
+                            x \in \left\{0,\cancel{0},\cancel{1}\right\}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(U.210);
+            \draw [-arcs] (U)--node[align = center,left=-0.3cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                1 & / & 1 & , & R
+                            \end{array}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(V);
+            \draw [-arcs,scale=1] (V.-30) to [bend right=100, distance = 1cm] node[align = center,right=-0.3cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                \cancel{x} & / & x & , & R\\
+                            \end{array}\\
+                            x \in \left\{0,1\right\}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(V.30);
+            \draw [-arcs] (V)--node[align = center,above] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                ; & / & B & , & R
+                            \end{array}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(W);
+
+            \draw [-arcs,scale=1] (W.150) to [bend right=100, distance = 1cm]  node[align = center,left=-0.3cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                x & / & B & , & R\\
+                            \end{array}\\
+                            x \in \left\{\cancel{0},\cancel{1}\right\}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(W.210);
+            \draw [-arcs] (W)--node[align = center,left=-0.3cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                B & / & B & , & N
+                            \end{array}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(X);
+
+            \draw [-arcs,scale=1] (Q.60) to [bend right=100, distance = 1cm]  node[align = center,above] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                x & / & B & , & R\\
+                            \end{array}\\
+                            x \in \left\{0,1,\cancel{0},\cancel{1}\right\}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(Q.120);
+
+            \draw [-arcs] (Q)--node[align = center,above] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                ; & / & B & , & R
+                            \end{array}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(Y);
+
+            \draw [-arcs,scale=1] (Y.150) to [bend right=100, distance = 1cm] node[align = center,left=-0.3cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                \cancel{x} & / & x & , & R\\
+                                x & / & x & , & R\\
+                            \end{array}\\
+                            x \in \left\{0,1\right\}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(Y.210);
+
+            \draw [-arcs] (Y)--node[align = center,left=-0.3cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                B & / & B & , & N
+                            \end{array}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(X);
+
+
+            \draw [-arcs] (C)--node[align = center,above left=-0.3cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                B & / & B & , & R
+                            \end{array}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(Z);
+            \draw [-arcs,scale=1] (Z.150) to [bend right=100, distance = 1cm] node[align = center,left=-0.3cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                x & / & x & , & R\\
+                            \end{array}\\
+                            x \in \left\{;,0,\cancel{0},\cancel{1}\right\}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(Z.210);
+
+            \draw [-arcs] (Z)--node[align = center,above] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                1 & / & 1 & , & R
+                            \end{array}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(ZA);
+            \draw [-arcs,scale=1] (ZA.60) to [bend right=100, distance = 1cm]  node[align = center,above] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                \cancel{x} & / & x & , & R\\
+                            \end{array}\\
+                            x \in \left\{0,1\right\}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(ZA.120);
+
+            \draw [-arcs] (ZA)--node[align = center,above] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                B & / & B & , & L
+                            \end{array}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(ZB);
+
+            \draw [-arcs,scale=1] (ZB.60) to [bend right=100, distance = 1cm]  node[align = center,above] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                x & / & x & , & L\\
+                            \end{array}\\
+                            x \in \left\{0,1\right\}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(ZB.120);
+
+            \draw [-arcs] (ZB)--node[align = center,above] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                ; & / & B & , & L
+                            \end{array}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(ZC);
+            \draw [-arcs,scale=1] (ZC.-30) to [bend right=100, distance = 1cm]  node[align = center,right=-0.3cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                x & / & B & , & L\\
+                            \end{array}\\
+                            x \in \left\{0,1,\cancel{0},\cancel{1}\right\}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(ZC.30);
+
+            \draw [-arcs,scale=1] (M.-30) to [bend right=100, distance = 1cm]  node[align = center,right=-0.3cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                x & / & x & , & R\\
+                            \end{array}\\
+                            x \in \left\{0,1,\cancel{0},\cancel{1}\right\}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(M.30);
+
+            \draw [-arcs] (M)--node[align = center,right=-0.3cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                B & / & B & , & L
+                            \end{array}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(ZD);
+
+            \draw [-arcs,scale=1] (ZD.150) to [bend right=100, distance = 1cm]  node[align = center,left=-0.4cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                x & / & B & , & L\\
+                            \end{array}\\
+                            x \in \left\{0,1,\cancel{0},\cancel{1}\right\}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(ZD.210);
+
+            \draw [-arcs] (Z)--node[align = center,above right=-0.3cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                B & / & B & , & L
+                            \end{array}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(ZD);
+
+            \draw [-arcs] (ZD)--node[align = center,above] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                ; & / & B & , & L
+                            \end{array}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(ZE);
+
+            \draw [-arcs,scale=1] (ZE.-60) to [bend right=-100, distance = 1cm] node[align = center,below] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                \cancel{x} & / & x & , & L\\
+                                x & / & x & , & L\\
+                            \end{array}\\
+                            x \in \left\{0,1\right\}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(ZE.-120);
+
+            \draw [-arcs] (ZC)--node[align = center,below right=-0.3cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                B & / & B & , & N
+                            \end{array}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(ZF);
+
+            \draw [-arcs] (ZE)--node[align = center,above right=-0.3cm] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                B & / & B & , & N
+                            \end{array}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(ZF);
+
+            \draw [-arcs] (K)--node[align = center,right=-0.4cm,near start] {
+                \begin{footnotesize}
+                    \begin{varwidth}{\textwidth}
+                        $$
+                        \begin{array}{l}
+                            \arraycolsep=1.4pt
+                            \begin{array}{lcclc}
+                                1 & / & 1 & , & N
+                            \end{array}
+                        \end{array}
+                        $$
+                    \end{varwidth}
+                \end{footnotesize}
+            }(L);
+
+        \end{tikzpicture}
+    \end{center}
+
+\end{document}
